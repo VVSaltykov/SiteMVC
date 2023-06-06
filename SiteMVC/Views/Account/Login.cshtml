@@ -1,0 +1,40 @@
+﻿@using SiteMVC.ViewModels;
+@model LoginViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Local</title>
+</head>
+<form asp-action="Login" asp-controller="Account">
+<link rel="stylesheet" href="~/css/app.css">
+<div class="container" align="middle" style="height: 100vh;">
+    <div class="d-flex justify-content-center w-100 h-100">
+        <div class="frame align-self-center col-md-3">
+            <div class="header">Авторизация</div>
+            <div>Пожалуйста, заполните все формы для авторизации.</div>
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <div>
+                <label asp-for="Login"><b>Логин</b></label>
+            </div>
+            <div>
+                <span asp-validation-for="Login" />
+                <input type="text" asp-for="Login" placeholder="Введите логин" required>
+            </div>
+
+            <div>
+                <label asp-for="Password"><b>Пароль</b></label>
+            </div>
+            <div>
+                <span asp-validation-for="Password" />
+                <input type="text" asp-for="Password" placeholder="Введите пароль">
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+</html>
