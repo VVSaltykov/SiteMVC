@@ -7,6 +7,6 @@
         public string? Phone { get; set; }
         public Roles Role { get; set; }
         public Account Account { get; set; }
-        public Class? Class { get; set; }
+        public List<Class>? Classes { get; set; }
     }
 }

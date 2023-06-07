@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using System.Collections.Generic;
+using SiteMVC.Repositories;
 
 namespace SiteMVC
 {
@@ -36,6 +37,11 @@ namespace SiteMVC
                 options.MaxModelValidationErrors = 50;
                 options.EnableEndpointRouting = false;
             });
+
+            services.AddTransient<AccountRepository>();
+            services.AddTransient<UserRepository>();
+            services.AddTransient<RolesRepository>();
+            services.AddTransient<ClassRepository>();
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)

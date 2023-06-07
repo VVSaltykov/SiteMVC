@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using SiteMVC.Exceptions;
 using SiteMVC.Models;
@@ -43,7 +44,7 @@ namespace SiteMVC.Controllers
                     {
                         await Authenticate(account);
                         HttpContext.Response.Cookies.Append("id", account.Id.ToString());
-                        return Redirect("~/");
+                        return Redirect("~/Roles/Create");
                     }
                     else
                     {
@@ -57,6 +58,38 @@ namespace SiteMVC.Controllers
                 }
             }
             return View(loginViewModel);
+        }
+
+        [Route("~/Account/Register")]
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [Route("~/Account/Register")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Account account = new();
+                if (await accountRepository.AccountIsInDatabase(registerViewModel))
+                {
+                    ModelState.AddModelError("", "Такой пользователь уже существует!");
+                }
+                else
+                {
+                    account.Login = registerViewModel.Login;
+                    account.Password = registerViewModel.Password;
+
+                    await accountRepository.AddNewAccount(account);
+
+                    await Authenticate(account);
+                    HttpContext.Response.Cookies.Append("id", account.Id.ToString());
+                }
+            }
+            return View(registerViewModel);
         }
 
         private async Task Authenticate(Account account)

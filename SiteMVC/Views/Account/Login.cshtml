@@ -33,6 +33,11 @@
                 <span asp-validation-for="Password" />
                 <input type="text" asp-for="Password" placeholder="Введите пароль">
             </div>
+            <div>
+                <form method="post" asp-area="" asp-controller="Roles" asp-action="Create">
+                    <input type="submit" class="authbtn" value="Авторизоваться">
+                </form>
+            </div>
         </div>
     </div>
 </div>

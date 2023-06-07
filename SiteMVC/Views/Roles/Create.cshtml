@@ -1,0 +1,38 @@
+﻿@model Roles
+
+<!DOCTYPE html>
+<html>
+<h1>@ViewData["Title"]</h1>
+<head>
+    <meta charset="utf-8">
+    <title>Local</title>
+</head>
+<form asp-action="Create" asp-controller="Roles">
+    <link rel="stylesheet" href="~/css/app.css">
+    <div class="container" align="middle" style="height: 100vh;">
+        <div class="d-flex justify-content-center w-100 h-100">
+            <div class="frame align-self-center col-md-8">
+                <div class="logo">
+                    <img src="" />
+                </div>
+
+                <div class="header">Создание роли</div>
+                <div>Пожалуйста, заполните все формы для создания.</div>
+
+                <div>
+                    <label asp-for="Name"><b>Роль</b></label>
+                </div>
+                <div>
+                    <input type="text" asp-for="Name" placeholder="Введите роль">
+                </div>
+
+                <div>
+                    <form method="post">
+                        <input type="submit" class="regbtn" value="Создать">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</html>

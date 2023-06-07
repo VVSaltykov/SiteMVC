@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SiteMVC.Models;
 using SiteMVC.ViewModels;
 
@@ -17,6 +16,15 @@ namespace SiteMVC.Repositories
         {
             appContext.Accounts.Add(account);
             await appContext.SaveChangesAsync();
+        }
+        public async Task<bool> AccountIsInDatabase(RegisterViewModel registerViewModel)
+        {
+            Account account = await appContext.Accounts.FirstOrDefaultAsync(a => a.Login == registerViewModel.Login);
+            if (account == null)
+            {
+                return false;
+            }
+            return true;
         }
         public async Task<Account> GetAccountByLoginModelAsync(LoginViewModel loginViewModel)
         {
