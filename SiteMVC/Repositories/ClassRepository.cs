@@ -15,11 +15,17 @@ namespace SiteMVC.Repositories
         {
             Class _class = new Class
             {
-                Name = name
+                Name = name,
+                UserId = users.Id,
             };
-            _class.Users.Add(users);
+            _class.Users?.Add(users);
             applicationContext.Classes.Add(_class);
             await applicationContext.SaveChangesAsync();
+        }
+        public async Task<Class> GetClassByIdAsync(int? id)
+        {
+            var _class = await applicationContext.FindAsync<Class>(id);
+            return _class;
         }
     }
 }

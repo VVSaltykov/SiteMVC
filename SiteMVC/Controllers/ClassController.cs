@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SiteMVC.Models;
 using SiteMVC.Repositories;
+using System.Linq;
 
 namespace SiteMVC.Controllers
 {
@@ -10,28 +11,33 @@ namespace SiteMVC.Controllers
     {
         private readonly ApplicationContext applicationContext;
         private readonly ClassRepository classRepository;
+        private readonly UserRepository userRepository;
 
-        public ClassController(ApplicationContext applicationContext, ClassRepository classRepository)
+        public ClassController(ApplicationContext applicationContext, ClassRepository classRepository, UserRepository userRepository)
         {
             this.applicationContext = applicationContext;
             this.classRepository = classRepository;
+            this.userRepository = userRepository;
         }
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["Users"] = new SelectList(applicationContext.Users, "Id", "Name");
+            IEnumerable<Users> teachers;
+            teachers = await userRepository.GetTeachers();
+            ViewData["Users"] = new SelectList(teachers, "Id", "FIO");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int name, Users users)
+        public async Task<IActionResult> Create(int name, int? userId)
         {
-            await classRepository.AddNewClass(name, users);
-            return RedirectToAction(nameof(Index));
+            var user = await userRepository.GetUserByIdAsync(userId);
+            await classRepository.AddNewClass(name, user);
+            return Redirect("~/Roles/Create");
 
         }
     }

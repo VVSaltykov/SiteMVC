@@ -21,5 +21,10 @@ namespace SiteMVC.Repositories
             applicationContext.Roles.Add(roles);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<Roles> GetRoleByIdAsync(int id)
+        {
+            var role = await applicationContext.FindAsync<Roles>(id);
+            return role;
+        }
     }
 }
