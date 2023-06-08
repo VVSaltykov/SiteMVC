@@ -23,9 +23,9 @@ namespace SiteMVC.Controllers
             this.rolesRepository = rolesRepository;
             this.classRepository = classRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await applicationContext.Users.ToListAsync());
         }
 
         public IActionResult Create()

@@ -10,7 +10,7 @@ namespace SiteMVC.Repositories
             this.applicationContext = applicationContext;
         }
 
-        public async Task AddNewUser(Account account, Roles roles, Class _class, string fio, string phone)
+        public async Task AddNewUser(Account account, Roles roles, Class? _class, string fio, string phone)
         {
             Users user = new Users
             {
@@ -18,7 +18,7 @@ namespace SiteMVC.Repositories
                 Phone = phone,
                 Roles = roles,
                 Account = account,
-                ClassId = _class.Id
+                ClassId = _class?.Id
             };
             user.Classes?.Add(_class);
             applicationContext.Users.Add(user);

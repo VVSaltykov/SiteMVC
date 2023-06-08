@@ -19,9 +19,9 @@ namespace SiteMVC.Controllers
             this.classRepository = classRepository;
             this.userRepository = userRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await applicationContext.Classes.ToListAsync());
         }
         public async Task<IActionResult> Create()
         {
@@ -37,7 +37,7 @@ namespace SiteMVC.Controllers
         {
             var user = await userRepository.GetUserByIdAsync(userId);
             await classRepository.AddNewClass(name, user);
-            return Redirect("~/Roles/Create");
+            return Redirect("~/Class/Index");
 
         }
     }

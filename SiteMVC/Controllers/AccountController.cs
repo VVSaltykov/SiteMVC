@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiteMVC.Exceptions;
 using SiteMVC.Models;
 using SiteMVC.Repositories;
@@ -18,10 +19,17 @@ namespace SiteMVC.Controllers
     [Controller]
     public class AccountController : Controller
     {
+        private readonly ApplicationContext applicationContext;
         private readonly AccountRepository accountRepository;
-        public AccountController(AccountRepository accountRepository)
+        public AccountController(ApplicationContext applicationContext, AccountRepository accountRepository)
         {
+            this.applicationContext = applicationContext;
             this.accountRepository = accountRepository;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await applicationContext.Accounts.ToListAsync());
         }
 
         [HttpGet]
@@ -87,6 +95,7 @@ namespace SiteMVC.Controllers
 
                     await Authenticate(account);
                     HttpContext.Response.Cookies.Append("id", account.Id.ToString());
+                    return Redirect("~/Account/Index");
                 }
             }
             return View(registerViewModel);
