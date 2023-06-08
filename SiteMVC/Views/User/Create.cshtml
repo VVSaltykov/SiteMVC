@@ -17,9 +17,9 @@
             </div>
             <div class="form-group">
                 <select asp-for="Roles.Id" class="form-control" asp-items="ViewBag.Roles"></select>
-            </div>
-            <div class="form-group">
-                <select asp-for="ClassId" class="form-control" asp-items="ViewBag.Class"></select>
+                <div class="form-group">
+                    <select asp-for="ClassId" class="form-control" asp-items="ViewBag.Class"></select>
+                </div>
             </div>
             <div class="form-group">
                 <input type="text" asp-for="FIO" placeholder="Введите имя" required>

@@ -44,7 +44,7 @@ namespace SiteMVC.Controllers
                     {
                         await Authenticate(account);
                         HttpContext.Response.Cookies.Append("id", account.Id.ToString());
-                        return Redirect("~/Roles/Create");
+                        return Redirect("~/Home/Index");
                     }
                     else
                     {
