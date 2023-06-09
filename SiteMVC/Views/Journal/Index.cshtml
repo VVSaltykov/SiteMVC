@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Journal>
+
+@{
+    ViewData["Title"] = "Журнал";
+}
+
+<h1>Журнал</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-warning">Создать</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.WorkType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LessonID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubjectId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id " class="btn btn-warning">Подробнее</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-warning">Удалить</a>
+                </td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>

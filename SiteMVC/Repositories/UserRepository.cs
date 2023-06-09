@@ -34,6 +34,16 @@ namespace SiteMVC.Repositories
             }
             return teachers;
         }
+        public async Task<IEnumerable<Users>> GetStudents()
+        {
+            List<Users> users = await GetUsersByRole("student");
+            IEnumerable<Users> teachers = users;
+            foreach (Users user in users)
+            {
+                teachers.Append(user);
+            }
+            return teachers;
+        }
         public async Task<List<Users>> GetUsersByRole(string role)
         {
             List<Users> users = new List<Users>();

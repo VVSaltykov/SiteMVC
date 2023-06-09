@@ -14,7 +14,7 @@ namespace SiteMVC.Models
         public int? CabinetId { get; set; }
         public int UserID { get; set; }
         public List<HomeWork> HomeWorks { get; set; }
-        public List<Journal> Journals { get; set; }
+        public List<Journal>? Journals { get; set; }
         [ForeignKey("ClassID")]
         public Class Class { get; set; }
         public Subject Subject { get; set; }
