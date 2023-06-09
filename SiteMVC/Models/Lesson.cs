@@ -6,7 +6,6 @@ namespace SiteMVC.Models
 {
     public class Lesson
     {
-        [Key]
         public int Id { get; set; }
         public string? WeekDay { get; set; }
         public int? LessonNumber { get; set; }
@@ -14,6 +13,8 @@ namespace SiteMVC.Models
         public int SubjectId { get; set; }
         public int? CabinetId { get; set; }
         public int UserID { get; set; }
+        public List<HomeWork> HomeWorks { get; set; }
+        public List<Journal> Journals { get; set; }
         [ForeignKey("ClassID")]
         public Class Class { get; set; }
         public Subject Subject { get; set; }

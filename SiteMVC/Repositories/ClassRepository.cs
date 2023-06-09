@@ -1,4 +1,5 @@
-﻿using SiteMVC.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SiteMVC.Models;
 
 namespace SiteMVC.Repositories
 {
@@ -21,6 +22,11 @@ namespace SiteMVC.Repositories
             _class.Users?.Add(users);
             applicationContext.Classes.Add(_class);
             await applicationContext.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<Class>> GetClassesAsync()
+        {
+            var classes = await applicationContext.Classes.ToListAsync();
+            return classes;
         }
         public async Task<Class> GetClassByIdAsync(int? id)
         {

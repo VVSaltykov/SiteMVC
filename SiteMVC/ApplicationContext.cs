@@ -11,16 +11,25 @@ namespace SiteMVC
         public DbSet<Class> Classes { get; set; }
         public DbSet<Cabinet> Cabinets { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
         public DbSet<HomeWork> HomeWorks { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Journal> Journals { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*modelBuilder.Entity<HomeWork>()
+            .HasOne(h => h.Lesson)
+            .WithMany(l => l.HomeWorks)
+            .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Journal>()
+            .HasOne(j => j.Lesson)
+            .WithMany(l => l.Journals)
+            .OnDelete(DeleteBehavior.SetNull);*/
         }
     }
 }

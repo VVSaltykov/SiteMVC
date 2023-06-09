@@ -1,0 +1,42 @@
+﻿@using SiteMVC.Repositories;
+@inject ClassRepository classRepository
+@model HomeWork
+
+@{
+    ViewData["Title"] = "Создание";
+    IEnumerable<Class> classes;
+    classes = await classRepository.GetClassesAsync();
+    ViewBag.Classes = new SelectList(classes, "Id", "Name");
+}
+
+<h1>Создание</h1>
+
+<h4>ДомашнееЗадание</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <input type="datetime" asp-for="Date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group">
+                <select asp-for="LessonId" class="form-control" asp-items="ViewBag.Lesson"></select>
+            </div>
+            <div class="form-group">
+                <select asp-for="ClassID" class="form-control" asp-items=@ViewBag.Classes></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

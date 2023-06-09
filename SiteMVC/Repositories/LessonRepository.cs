@@ -24,5 +24,10 @@ namespace SiteMVC.Repositories
             applicationContext.Lessons.Add(lesson);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<Lesson> GetLessonByIdAsync(int? id)
+        {
+            var lesson = await applicationContext.FindAsync<Lesson>(id);
+            return lesson;
+        }
     }
 }

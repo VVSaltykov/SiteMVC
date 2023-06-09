@@ -1,4 +1,6 @@
-﻿namespace SiteMVC.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SiteMVC.Models
 {
     public class Journal
     {
@@ -7,7 +9,11 @@
         public int Grade { get; set; }
         public string WorkType { get; set; }
         public int Pass { get; set; }
-        public Account User { get; set; }
+        public int LessonID { get; set; }
+        public int UserID { get; set; }
+        [ForeignKey("UserID")]
+        public Users User { get; set; }
+        [ForeignKey("LessonID")]
         public Lesson Lesson { get; set; }
     }
 }

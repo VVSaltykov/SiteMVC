@@ -45,6 +45,7 @@ namespace SiteMVC
             services.AddTransient<CabinetRepository>();
             services.AddTransient<SubjectRepository>();
             services.AddTransient<LessonRepository>();
+            services.AddTransient<HomeWorkRepository>();
         }
 
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)

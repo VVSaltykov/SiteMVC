@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteMVC;
 
@@ -11,9 +12,10 @@ using SiteMVC;
 namespace SiteMVC.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230609104608_add_homeworks")]
+    partial class add_homeworks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,9 +141,6 @@ namespace SiteMVC.Migrations
                     b.Property<int>("Grade")
                         .HasColumnType("int");
 
-                    b.Property<int>("LessonID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Pass")
                         .HasColumnType("int");
 
@@ -153,8 +152,6 @@ namespace SiteMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LessonID");
 
                     b.HasIndex("UserID");
 
@@ -298,19 +295,11 @@ namespace SiteMVC.Migrations
 
             modelBuilder.Entity("SiteMVC.Models.Journal", b =>
                 {
-                    b.HasOne("SiteMVC.Models.Lesson", "Lesson")
-                        .WithMany("Journals")
-                        .HasForeignKey("LessonID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SiteMVC.Models.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Lesson");
 
                     b.Navigation("User");
                 });
@@ -387,8 +376,6 @@ namespace SiteMVC.Migrations
             modelBuilder.Entity("SiteMVC.Models.Lesson", b =>
                 {
                     b.Navigation("HomeWorks");
-
-                    b.Navigation("Journals");
                 });
 
             modelBuilder.Entity("SiteMVC.Models.Roles", b =>
