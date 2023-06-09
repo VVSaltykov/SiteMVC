@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SiteMVC.Models
 {
@@ -9,9 +10,15 @@ namespace SiteMVC.Models
         public int Id { get; set; }
         public string? WeekDay { get; set; }
         public int? LessonNumber { get; set; }
-        public Class ClassID { get; set; }
-        public Subject SubjectID { get; set; }
-        public Cabinet? CabinetID { get; set; }
-        public Account? UserID { get; set; }
+        public int ClassID { get; set; }
+        public int SubjectId { get; set; }
+        public int? CabinetId { get; set; }
+        public int UserID { get; set; }
+        [ForeignKey("ClassID")]
+        public Class Class { get; set; }
+        public Subject Subject { get; set; }
+        public Cabinet? Cabinet { get; set; }
+        [ForeignKey("UserID")]
+        public Users Users { get; set; }
     }
 }

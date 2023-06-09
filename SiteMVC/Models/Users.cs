@@ -9,5 +9,6 @@
         public Roles Roles { get; set; }
         public Account Account { get; set; }
         public List<Class>? Classes { get; set; }
+        public List<Lesson> Lessons { get; set; }
     }
 }

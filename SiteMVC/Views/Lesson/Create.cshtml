@@ -1,0 +1,47 @@
+﻿@using SiteMVC.Repositories;
+@model Lesson
+@inject UserRepository userRepository
+
+@{
+    ViewData["Title"] = "Создание";
+    IEnumerable<Users> _teachers;
+    _teachers = await userRepository.GetTeachers();
+    ViewData["Teachers"] = new SelectList(_teachers, "Id", "FIO");
+}
+
+<h1>Создание</h1>
+
+<h4>Урок</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="text" asp-for="WeekDay" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="number" asp-for="LessonNumber" class="form-control" />
+            </div>
+            <div class="form-group">
+                <select asp-for="ClassID" class="form-control" asp-items="ViewBag.Class"></select>
+            </div>
+            <div class="form-group">
+                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.Subject"></select>
+            </div>
+            <div class="form-group">
+                <select asp-for="CabinetId" class="form-control" asp-items="ViewBag.Cabinet"></select>
+            </div>
+            <div class="form-group">
+                <select asp-for="UserID" class="form-control" asp-items="ViewBag.Teachers"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Создать" , class="btn btn-warning" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад</a>
+</div>

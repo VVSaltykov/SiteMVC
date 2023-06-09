@@ -96,6 +96,50 @@ namespace SiteMVC.Migrations
                     b.ToTable("Classes");
                 });
 
+            modelBuilder.Entity("SiteMVC.Models.Lesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CabinetId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LessonNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WeekDay")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("CabinetId");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("Lessons");
+                });
+
             modelBuilder.Entity("SiteMVC.Models.Roles", b =>
                 {
                     b.Property<int>("Id")
@@ -175,6 +219,43 @@ namespace SiteMVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SiteMVC.Models.Lesson", b =>
+                {
+                    b.HasOne("SiteMVC.Models.Account", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("SiteMVC.Models.Cabinet", "Cabinet")
+                        .WithMany("Lessons")
+                        .HasForeignKey("CabinetId");
+
+                    b.HasOne("SiteMVC.Models.Class", "Class")
+                        .WithMany("Lessons")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SiteMVC.Models.Subject", "Subject")
+                        .WithMany("Lessons")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SiteMVC.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cabinet");
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Users");
+                });
+
             modelBuilder.Entity("SiteMVC.Models.Users", b =>
                 {
                     b.HasOne("SiteMVC.Models.Account", "Account")
@@ -196,12 +277,29 @@ namespace SiteMVC.Migrations
 
             modelBuilder.Entity("SiteMVC.Models.Account", b =>
                 {
+                    b.Navigation("Lessons");
+
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SiteMVC.Models.Cabinet", b =>
+                {
+                    b.Navigation("Lessons");
+                });
+
+            modelBuilder.Entity("SiteMVC.Models.Class", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("SiteMVC.Models.Roles", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("SiteMVC.Models.Subject", b =>
+                {
+                    b.Navigation("Lessons");
                 });
 #pragma warning restore 612, 618
         }

@@ -20,5 +20,10 @@ namespace SiteMVC.Repositories
             applicationContext.Subjects.Add(subject);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<Subject> GetSubjectByIdAsync(int? id)
+        {
+            var subject = await applicationContext.FindAsync<Subject>(id);
+            return subject;
+        }
     }
 }

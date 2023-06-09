@@ -11,6 +11,9 @@ namespace SiteMVC
         public DbSet<Class> Classes { get; set; }
         public DbSet<Cabinet> Cabinets { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<HomeWork> HomeWorks { get; set; }
+        public DbSet<Journal> Journals { get; set; }
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {

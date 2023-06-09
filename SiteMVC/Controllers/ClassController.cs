@@ -38,7 +38,6 @@ namespace SiteMVC.Controllers
             var user = await userRepository.GetUserByIdAsync(userId);
             await classRepository.AddNewClass(name, user);
             return Redirect("~/Class/Index");
-
         }
     }
 }

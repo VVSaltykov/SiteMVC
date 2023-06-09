@@ -20,5 +20,10 @@ namespace SiteMVC.Repositories
             applicationContext.Cabinets.Add(cabinet);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<Cabinet> GetCabinetByIdAsync(int? id)
+        {
+            var cabinet = await applicationContext.FindAsync<Cabinet>(id);
+            return cabinet;
+        }
     }
 }

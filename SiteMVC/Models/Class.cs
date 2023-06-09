@@ -9,5 +9,6 @@ namespace SiteMVC.Models
         public int? Name { get; set; }
         public int? UserId { get; set; }
         public List<Users>? Users { get; set; }
+        public List<Lesson> Lessons { get; set; }
     }
 }
