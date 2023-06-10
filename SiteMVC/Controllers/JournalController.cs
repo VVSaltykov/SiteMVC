@@ -37,7 +37,7 @@ namespace SiteMVC.Controllers
             ViewData["Subjects"] = new SelectList(applicationContext.Subjects, "Id", "Name");
             return View();
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime dateTime, int grade, string workType,
@@ -48,6 +48,43 @@ namespace SiteMVC.Controllers
             var user = await userRepository.GetUserByIdAsync(userId);
             await journalRepository.AddNewJournal(dateTime, grade, workType, lesson, subject, user);
             return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || applicationContext.Journals == null)
+            {
+                return NotFound();
+            }
+
+            var journal = await applicationContext.Journals
+                .Include(j => j.Lesson)
+                .Include(j => j.Subject)
+                .Include(j => j.User)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (journal == null)
+            {
+                return NotFound();
+            }
+            IEnumerable<Users> students;
+            students = await userRepository.GetStudents();
+            ViewData["Lesson"] = new SelectList(applicationContext.Lessons, "Id", "LessonNumber", journal.LessonID);
+            ViewData["Subject"] = new SelectList(applicationContext.Subjects, "Id", "Name", journal.SubjectId);
+            ViewData["Students"] = new SelectList(students, "Id", "FIO", journal.UserID);
+            return View(journal);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Date, Grade, WorkType, LessonID, UserID, SubjectId")] Journal journal)
+        {
+            if (id != journal.Id)
+            {
+                return NotFound();
+            }
+            applicationContext.Update(journal);
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
         public async Task<IActionResult> Delete(int? id)
         {

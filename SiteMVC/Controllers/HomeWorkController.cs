@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SiteMVC.Models;
 using SiteMVC.Repositories;
 
 namespace SiteMVC.Controllers
@@ -39,6 +40,41 @@ namespace SiteMVC.Controllers
             var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
             await homeWorkRepository.AddNewHomeWork(dateTime, description, lesson, _class);
             return Redirect("~/HomeWork/Index");
+        }
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || applicationContext.HomeWorks == null)
+            {
+                return NotFound();
+            }
+
+            var homeWork = await applicationContext.HomeWorks
+               .Include(h => h.Lesson)
+               .Include(h => h.Class)
+               .FirstOrDefaultAsync(h => h.Id == id);
+            if (homeWork == null)
+            {
+                return NotFound();
+            }
+            ViewData["Lesson"] = new SelectList(applicationContext.Lessons, "Id", "LessonNumber", homeWork.Lesson);
+            ViewData["Classes"] = new SelectList(applicationContext.Classes, "Id", "Name", homeWork.Class);
+            return View(homeWork);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Date, Description, ClassID, LessonId")] HomeWork homeWork)
+        {
+            if (id != homeWork.Id)
+            {
+                return NotFound();
+            }
+
+            applicationContext.Update(homeWork);
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
 
         public async Task<IActionResult> Delete(int? id)

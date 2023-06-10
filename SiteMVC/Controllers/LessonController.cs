@@ -51,6 +51,37 @@ namespace SiteMVC.Controllers
             await lessonRepository.AddNewLesson(weekDay, lessonNumber, _class, subject, cabinet, user);
             return Redirect("~/Lesson/Index");
         }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || applicationContext.Lessons == null)
+            {
+                return NotFound();
+            }
+
+            var lesson = await applicationContext.Lessons.FindAsync(id);
+            if (lesson == null)
+            {
+                return NotFound();
+            }
+            ViewData["Class"] = new SelectList(applicationContext.Classes, "Id", "Name");
+            ViewData["Subject"] = new SelectList(applicationContext.Subjects, "Id", "Name");
+            ViewData["Cabinet"] = new SelectList(applicationContext.Cabinets, "Id", "Number");
+            return View(lesson);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,WeekDay,LessonNumber,ClassID,SubjectId,CabinetId,UserID")] Lesson lesson)
+        {
+            if (id != lesson.Id)
+            {
+                return NotFound();
+            }
+            applicationContext.Update(lesson);
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || applicationContext.Lessons == null)

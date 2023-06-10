@@ -48,6 +48,36 @@ namespace SiteMVC.Controllers
             await userRepository.AddNewUser(_account, role, @class, fio, phone);
             return Redirect("~/Roles/Create");
         }
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || applicationContext.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await applicationContext.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            ViewData["Class"] = new SelectList(applicationContext.Classes, "Id", "Name");
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FIO,Phone,ClassId,RoleId,AccountId")] Users user)
+        {
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            applicationContext.Update(user);
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || applicationContext.Users == null)
