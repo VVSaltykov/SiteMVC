@@ -133,6 +133,15 @@ namespace SiteMVC
             .HasOne(l => l.Users)
             .WithMany(u => u.Lessons)
             .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Account>().HasData(
+                new Account { Id = 1, Login = "Admin", Password = "admin" });
+
+            modelBuilder.Entity<Roles>().HasData(
+                new Roles { Id = 1, Name = "admin" });
+
+            modelBuilder.Entity<Users>().HasData(
+                new Users { Id = 1, FIO = "Admin", RoleId = 1, AccountId = 1 });
         }
     }
 }

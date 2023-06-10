@@ -24,5 +24,10 @@ namespace SiteMVC.Repositories
             applicationContext.Journals.Add(journal);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<List<Journal>> GetUserJournalAsync(Users user)
+        {
+            List<Journal> journals = applicationContext.Journals.Where(j => j.UserID == user.Id).ToList();
+            return journals;
+        }
     }
 }

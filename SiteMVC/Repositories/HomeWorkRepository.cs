@@ -22,5 +22,10 @@ namespace SiteMVC.Repositories
             applicationContext.HomeWorks.Add(homeWork);
             await applicationContext.SaveChangesAsync();
         }
+        public async Task<List<HomeWork>> GetUserHomeWorksAsync(Users user)
+        {
+            List<HomeWork> homeWorks = applicationContext.HomeWorks.Where(h => h.ClassID == user.ClassId).ToList();
+            return homeWorks;
+        }
     }
 }

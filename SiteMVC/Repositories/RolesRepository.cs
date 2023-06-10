@@ -1,4 +1,5 @@
-﻿using SiteMVC.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SiteMVC.Models;
 using System;
 
 namespace SiteMVC.Repositories
@@ -24,6 +25,11 @@ namespace SiteMVC.Repositories
         public async Task<Roles> GetRoleByIdAsync(int id)
         {
             var role = await applicationContext.FindAsync<Roles>(id);
+            return role;
+        }
+        public async Task<Roles> GetUserRoleAsync(Users user)
+        {
+            var role = await applicationContext.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
             return role;
         }
     }

@@ -1,14 +1,30 @@
-﻿@model IEnumerable<Lesson>
-
+﻿@using SiteMVC.Models;
+@using SiteMVC.Repositories;
+@model IEnumerable<Lesson>
+@inject AccountRepository accountRepository
+@inject UserRepository userRepository
+@inject RolesRepository rolesRepository
+@inject JournalRepository journalRepository
+@inject LessonRepository lessonRepository
+@{
+    string login = User.Identity.Name;
+    var account = await accountRepository.GetAccountByLoginAsync(login);
+    var user = await userRepository.GetUserByAccountAsync(account);
+    var userRole = await rolesRepository.GetUserRoleAsync(user);
+    List<Lesson> lessons = await lessonRepository.GetUserLessonsAsync(user);
+}
 @{
     ViewData["Title"] = "Урок";
 }
 
 <h1>Урок</h1>
 
-<p>
-    <a asp-action="Create" , class="btn btn-warning">Создать</a>
-</p>
+@if (userRole.Name == "teacher" || userRole.Name == "admin")
+{
+    <p>
+        <a asp-action="Create" , class="btn btn-warning">Создать</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -34,33 +50,62 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (userRole.Name == "student")
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WeekDay)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LessonNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Class.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cabinet.Number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Users.FIO)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" , class="btn btn-warning">Подробнее</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>
-                </td>
-            </tr>
+            @foreach (var item in lessons)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WeekDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cabinet.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Users.FIO)
+                    </td>
+                </tr>
+            }
+        }
+        @if (userRole.Name == "teacher" || userRole.Name == "admin")
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WeekDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cabinet.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Users.FIO)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id" , class="btn btn-warning">Подробнее</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

@@ -1,4 +1,17 @@
-﻿@model IEnumerable<Journal>
+﻿@using SiteMVC.Models;
+@using SiteMVC.Repositories;
+@model IEnumerable<Journal>
+@inject AccountRepository accountRepository
+@inject UserRepository userRepository
+@inject RolesRepository rolesRepository
+@inject JournalRepository journalRepository
+@{
+    string login = User.Identity.Name;
+    var account = await accountRepository.GetAccountByLoginAsync(login);
+    var user = await userRepository.GetUserByAccountAsync(account);
+    var userRole = await rolesRepository.GetUserRoleAsync(user);
+    List<Journal> journals = await journalRepository.GetUserJournalAsync(user);
+}
 
 @{
     ViewData["Title"] = "Журнал";
@@ -6,9 +19,12 @@
 
 <h1>Журнал</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-warning">Создать</a>
-</p>
+@if (userRole.Name == "teacher" || userRole.Name == "admin")
+{
+    <p>
+        <a asp-action="Create" class="btn btn-warning">Создать</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -33,33 +49,58 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (userRole.Name == "student")
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
+            @foreach (var item in journals)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Grade)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WorkType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject.Name)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id " class="btn btn-warning">Подробнее</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-warning">Удалить</a>
-                </td>
-            </tr>
-
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                </tr>
+            }
         }
+        @if (userRole.Name == "teacher" || userRole.Name == "admin")
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id " class="btn btn-warning">Подробнее</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-warning">Удалить</a>
+                    </td>
+                </tr>
+            }
+        }
     </tbody>
 </table>

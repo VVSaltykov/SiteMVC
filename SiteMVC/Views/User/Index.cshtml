@@ -1,14 +1,27 @@
-﻿@model IEnumerable<Users>
+﻿@using SiteMVC.Models;
+@using SiteMVC.Repositories;
+@model IEnumerable<Users>
+@inject UserRepository userRepository
+@inject AccountRepository accountRepository
+@inject RolesRepository rolesRepository
 
 @{
     ViewData["Title"] = "Предмет";
+    string login = User.Identity.Name;
+    var account = await accountRepository.GetAccountByLoginAsync(login);
+    var user = await userRepository.GetUserByAccountAsync(account);
+    var userRole = await rolesRepository.GetUserRoleAsync(user);
+    IEnumerable<Users> students;
+    students = await userRepository.GetStudents();
 }
 
 <h1>Предмет</h1>
 
-<p>
-    <a asp-action="Create" , class="btn btn-warning">Создать</a>
-</p>
+@if (userRole.Name == "admin")
+{
+    <p>
+        <a asp-action="Create" , class="btn btn-warning">Создать</a>
+    </p>}
 <table class="table">
     <thead>
         <tr>
@@ -25,24 +38,44 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @if (userRole.Name == "teacher")
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FIO)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClassId)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" , class="btn btn-warning">Подробнее</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>
-                </td>
-            </tr>
+            @foreach (var item in students)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassId)
+                    </td>
+                </tr>
+            }
+        }
+        @if (userRole.Name == "admin")
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FIO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClassId)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id" , class="btn btn-warning">Подробнее</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

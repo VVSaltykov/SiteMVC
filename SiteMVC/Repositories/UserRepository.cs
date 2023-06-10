@@ -1,4 +1,5 @@
-﻿using SiteMVC.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SiteMVC.Models;
 
 namespace SiteMVC.Repositories
 {
@@ -57,6 +58,11 @@ namespace SiteMVC.Repositories
         public async Task<Users> GetUserByIdAsync(int? id)
         {
             var user = await applicationContext.FindAsync<Users>(id);
+            return user;
+        }
+        public async Task<Users> GetUserByAccountAsync(Account account)
+        {
+            var user = applicationContext.Users.FirstOrDefault(u => u.AccountId == account.Id);
             return user;
         }
     }

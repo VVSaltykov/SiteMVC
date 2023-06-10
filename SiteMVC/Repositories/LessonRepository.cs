@@ -29,5 +29,10 @@ namespace SiteMVC.Repositories
             var lesson = await applicationContext.FindAsync<Lesson>(id);
             return lesson;
         }
+        public async Task<List<Lesson>> GetUserLessonsAsync(Users user)
+        {
+            List<Lesson> lessons = applicationContext.Lessons.Where(l => l.ClassID == user.ClassId).ToList();
+            return lessons;
+        }
     }
 }
