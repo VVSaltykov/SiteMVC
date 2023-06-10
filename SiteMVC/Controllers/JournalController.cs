@@ -59,7 +59,8 @@ namespace SiteMVC.Controllers
             var journal = await applicationContext.Journals
                .Include(j => j.Lesson)
                .Include(j => j.User)
-               .FirstOrDefaultAsync(j => j.LessonID == id && j.UserID == id);
+               .Include(j => j.Subject)
+               .FirstOrDefaultAsync(j => j.Id == id);
             if (journal == null)
             {
                 return NotFound();
@@ -68,7 +69,6 @@ namespace SiteMVC.Controllers
             return View(journal);
         }
 
-        // POST: Журнал/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

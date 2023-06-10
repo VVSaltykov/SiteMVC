@@ -49,9 +49,9 @@ namespace SiteMVC.Controllers
             }
 
             var homeWork = await applicationContext.HomeWorks
-                .Include(д => д.Lesson)
-                .Include(д => д.Class)
-                .FirstOrDefaultAsync(h => h.LessonId == id && h.ClassID == id);
+                .Include(h => h.Lesson)
+                .Include(h => h.Class)
+                .FirstOrDefaultAsync(h => h.Id == id);
             if (homeWork == null)
             {
                 return NotFound();
