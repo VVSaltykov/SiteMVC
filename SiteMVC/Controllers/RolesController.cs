@@ -36,5 +36,39 @@ namespace SiteMVC.Controllers
             await rolesRepository.AddNewRole(name);
             return Redirect("~/Roles/Index");
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Roles == null)
+            {
+                return NotFound();
+            }
+
+            var role = await applicationContext.Roles
+                .FirstOrDefaultAsync(r => r.Id == id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return View(role);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Roles == null)
+            {
+                return Problem("Entity set 'applicationContext.Roles'  is null.");
+            }
+            var role = await applicationContext.Roles.FindAsync(id);
+            if (role != null)
+            {
+                applicationContext.Roles.Remove(role);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

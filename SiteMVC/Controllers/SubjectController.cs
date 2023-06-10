@@ -34,5 +34,39 @@ namespace SiteMVC.Controllers
             }
             return View("~/Home/Index");
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Subjects == null)
+            {
+                return NotFound();
+            }
+
+            var subject = await applicationContext.Subjects
+                .FirstOrDefaultAsync(s => s.Id == id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
+            return View(subject);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Subjects == null)
+            {
+                return Problem("Entity set 'applicationContext.Subjects'  is null.");
+            }
+            var subject = await applicationContext.Subjects.FindAsync(id);
+            if (subject != null)
+            {
+                applicationContext.Subjects.Remove(subject);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

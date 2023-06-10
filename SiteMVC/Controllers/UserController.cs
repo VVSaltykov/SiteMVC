@@ -48,5 +48,42 @@ namespace SiteMVC.Controllers
             await userRepository.AddNewUser(_account, role, @class, fio, phone);
             return Redirect("~/Roles/Create");
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await applicationContext.Users
+                .Include(u => u.Classes)
+                .Include(u => u.Account)
+                .Include(u => u.Roles)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Users == null)
+            {
+                return Problem("Entity set 'applicationContext.Users'  is null.");
+            }
+            var user = await applicationContext.Users.FindAsync(id);
+            if (user != null)
+            {
+                applicationContext.Users.Remove(user);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

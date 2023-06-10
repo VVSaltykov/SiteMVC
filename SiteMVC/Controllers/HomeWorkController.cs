@@ -40,5 +40,45 @@ namespace SiteMVC.Controllers
             await homeWorkRepository.AddNewHomeWork(dateTime, description, lesson, _class);
             return Redirect("~/HomeWork/Index");
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.HomeWorks == null)
+            {
+                return NotFound();
+            }
+
+            var homeWork = await applicationContext.HomeWorks
+                .Include(д => д.Lesson)
+                .Include(д => д.Class)
+                .FirstOrDefaultAsync(h => h.LessonId == id && h.ClassID == id);
+            if (homeWork == null)
+            {
+                return NotFound();
+            }
+
+            return View(homeWork);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.HomeWorks == null)
+            {
+                return Problem("Entity set 'applicationContext.HomeWorks'  is null.");
+            }
+            var homeWork = await applicationContext.HomeWorks
+                .Include(д => д.Lesson)
+                .Include(д => д.Class)
+                .FirstOrDefaultAsync(h => h.LessonId == id && h.ClassID == id);
+            if (homeWork != null)
+            {
+                applicationContext.HomeWorks.Remove(homeWork);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

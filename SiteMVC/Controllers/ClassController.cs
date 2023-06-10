@@ -39,5 +39,40 @@ namespace SiteMVC.Controllers
             await classRepository.AddNewClass(name, user);
             return Redirect("~/Class/Index");
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Classes == null)
+            {
+                return NotFound();
+            }
+
+            var _class = await applicationContext.Classes
+                .Include(c => c.Users)
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (_class == null)
+            {
+                return NotFound();
+            }
+
+            return View(_class);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Classes == null)
+            {
+                return Problem("Entity set 'ApplicationContext.Classes'  is null.");
+            }
+            var _class = await applicationContext.Classes.FindAsync(id);
+            if (_class != null)
+            {
+                applicationContext.Classes.Remove(_class);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

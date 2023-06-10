@@ -1,0 +1,56 @@
+﻿@model Lesson
+
+@{
+    ViewData["Title"] = "Удаление";
+}
+
+<h1>Удаление</h1>
+
+<div>
+    <h4>Урок</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.WeekDay)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.WeekDay)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LessonNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LessonNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cabinet)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cabinet.Number)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Class)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Class.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subject.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Users)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Users.FIO)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-warning" , onclick="return confirm ('Удалить запись?')" /> |
+        <a asp-action="Index">Назад</a>
+    </form>
+</div>

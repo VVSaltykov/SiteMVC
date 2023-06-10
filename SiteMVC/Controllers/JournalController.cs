@@ -49,5 +49,46 @@ namespace SiteMVC.Controllers
             await journalRepository.AddNewJournal(dateTime, grade, workType, lesson, subject, user);
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Journals == null)
+            {
+                return NotFound();
+            }
+
+            var journal = await applicationContext.Journals
+               .Include(j => j.Lesson)
+               .Include(j => j.User)
+               .FirstOrDefaultAsync(j => j.LessonID == id && j.UserID == id);
+            if (journal == null)
+            {
+                return NotFound();
+            }
+
+            return View(journal);
+        }
+
+        // POST: Журнал/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Journals == null)
+            {
+                return Problem("Entity set 'applicationContext.Journals'  is null.");
+            }
+            var journal = await applicationContext.Journals
+               .Include(j => j.Lesson)
+               .Include(j => j.User)
+               .FirstOrDefaultAsync(j => j.LessonID == id && j.UserID == id);
+
+            if (journal != null)
+            {
+                applicationContext.Journals.Remove(journal);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

@@ -34,5 +34,40 @@ namespace SiteMVC.Controllers
             }
             return View("~/Home/Index");
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Cabinets == null)
+            {
+                return NotFound();
+            }
+
+            var cabinet = await applicationContext.Cabinets
+                .FirstOrDefaultAsync(c => c.Id == id);
+            if (cabinet == null)
+            {
+                return NotFound();
+            }
+
+            return View(cabinet);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Cabinets == null)
+            {
+                return Problem("Entity set 'ApplicationContext.Cabinets'  is null.");
+            }
+            var cabinet = await applicationContext.Cabinets.FindAsync(id);
+            if (cabinet != null)
+            {
+                applicationContext.Cabinets.Remove(cabinet);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

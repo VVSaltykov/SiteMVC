@@ -101,6 +101,41 @@ namespace SiteMVC.Controllers
             return View(registerViewModel);
         }
 
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Accounts == null)
+            {
+                return NotFound();
+            }
+
+            var account = await applicationContext.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return View(account);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Accounts == null)
+            {
+                return Problem("Entity set 'ApplicationContetx.Accounts'  is null.");
+            }
+            var account = await applicationContext.Accounts.FindAsync(id);
+            if (account != null)
+            {
+                applicationContext.Accounts.Remove(account);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private async Task Authenticate(Account account)
         {
 

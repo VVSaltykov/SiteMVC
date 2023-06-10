@@ -51,5 +51,43 @@ namespace SiteMVC.Controllers
             await lessonRepository.AddNewLesson(weekDay, lessonNumber, _class, subject, cabinet, user);
             return Redirect("~/Lesson/Index");
         }
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || applicationContext.Lessons == null)
+            {
+                return NotFound();
+            }
+
+            var lesson = await applicationContext.Lessons
+                .Include(l => l.Cabinet)
+                .Include(l => l.Class)
+                .Include(l => l.Subject)
+                .Include(l => l.Users)
+                .FirstOrDefaultAsync(l => l.Id == id);
+            if (lesson == null)
+            {
+                return NotFound();
+            }
+
+            return View(lesson);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (applicationContext.Lessons == null)
+            {
+                return Problem("Entity set 'applicationContext.Lessons'  is null.");
+            }
+            var lesson = await applicationContext.Lessons.FindAsync(id);
+            if (lesson != null)
+            {
+                applicationContext.Lessons.Remove(lesson);
+            }
+
+            await applicationContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
