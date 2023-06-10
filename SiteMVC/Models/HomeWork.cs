@@ -9,7 +9,9 @@ namespace SiteMVC.Models
     public class HomeWork
     {
         public int Id { get; set; }
+        [Display(Name = "Дата")]
         public DateTime Date { get; set; }
+        [Display(Name = "Задание")]
         public string? Description { get; set; }
         public int? ClassID { get; set; }
         public int? LessonId { get; set; }

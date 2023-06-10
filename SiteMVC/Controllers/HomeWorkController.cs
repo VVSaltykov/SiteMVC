@@ -105,8 +105,8 @@ namespace SiteMVC.Controllers
                 return Problem("Entity set 'applicationContext.HomeWorks'  is null.");
             }
             var homeWork = await applicationContext.HomeWorks
-                .Include(д => д.Lesson)
-                .Include(д => д.Class)
+                .Include(h => h.Lesson)
+                .Include(h => h.Class)
                 .FirstOrDefaultAsync(h => h.LessonId == id && h.ClassID == id);
             if (homeWork != null)
             {

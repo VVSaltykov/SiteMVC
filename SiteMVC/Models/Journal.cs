@@ -1,12 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace SiteMVC.Models
 {
     public class Journal
     {
         public int Id { get; set; }
+        [Display(Name = "Дата")]
         public DateTime Date { get; set; }
+        [Display(Name = "Оценка")]
         public int Grade { get; set; }
+        [Display(Name = "Название работы")]
         public string WorkType { get; set; }
         public int? LessonID { get; set; }
         public int? UserID { get; set; }

@@ -12,7 +12,7 @@ namespace SiteMVC.Repositories
             this.applicationContext = applicationContext;
         }
 
-        public async Task AddNewClass(int name, Users users)
+        public async Task AddNewClass(string name, Users users)
         {
             Class _class = new Class
             {

@@ -6,7 +6,8 @@ namespace SiteMVC.Models
     {
         [Key]
         public int Id { get; set; }
-        public int? Name { get; set; }
+        [Display(Name = "Номер класса")]
+        public string? Name { get; set; }
         public int? UserId { get; set; }
         public List<Users>? Users { get; set; }
         public List<Lesson>? Lessons { get; set; }

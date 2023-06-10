@@ -33,7 +33,7 @@ namespace SiteMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int name, int? userId)
+        public async Task<IActionResult> Create(string name, int? userId)
         {
             var user = await userRepository.GetUserByIdAsync(userId);
             await classRepository.AddNewClass(name, user);

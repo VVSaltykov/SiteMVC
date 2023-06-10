@@ -7,7 +7,9 @@ namespace SiteMVC.Models
     public class Lesson
     {
         public int Id { get; set; }
+        [Display(Name = "День недели")]
         public string? WeekDay { get; set; }
+        [Display(Name = "Номер урока")]
         public int? LessonNumber { get; set; }
         public int? ClassID { get; set; }
         public int? SubjectId { get; set; }
