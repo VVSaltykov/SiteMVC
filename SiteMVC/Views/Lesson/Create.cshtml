@@ -19,22 +19,26 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input type="text" asp-for="WeekDay" class="form-control" />
+                <input type="text" asp-for="WeekDay" placeholder="Введите день недели" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="number" asp-for="LessonNumber" class="form-control" />
+                <input type="number" asp-for="LessonNumber" placeholder="Введите номер урока" class="form-control" />
             </div>
             <div class="form-group">
-                <select asp-for="ClassID" class="form-control" asp-items="ViewBag.Class"></select>
+                <label asp-for="Class.Name" class="control-label"></label>
+                <select asp-for="ClassID" class="form-control" placeholder="Выберите класс" asp-items="ViewBag.Class"></select>
             </div>
             <div class="form-group">
-                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.Subject"></select>
+                <label asp-for="Subject.Name" class="control-label"></label>
+                <select asp-for="SubjectId" class="form-control" placeholder="Выберите предмет" asp-items="ViewBag.Subject"></select>
             </div>
             <div class="form-group">
-                <select asp-for="CabinetId" class="form-control" asp-items="ViewBag.Cabinet"></select>
+                <label asp-for="Cabinet.Number" class="control-label"></label>
+                <select asp-for="CabinetId" class="form-control" placeholder="Выберите кабинет" asp-items="ViewBag.Cabinet"></select>
             </div>
             <div class="form-group">
-                <select asp-for="UserID" class="form-control" asp-items="ViewBag.Teachers"></select>
+                <label asp-for="Users.FIO" class="control-label"></label>
+                <select asp-for="UserID" class="form-control" placeholder="Выберите учителя" asp-items="ViewBag.Teachers"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Создать" , class="btn btn-warning" />

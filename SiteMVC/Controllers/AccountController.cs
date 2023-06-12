@@ -93,8 +93,8 @@ namespace SiteMVC.Controllers
 
                     await accountRepository.AddNewAccount(account);
 
-                    await Authenticate(account);
-                    HttpContext.Response.Cookies.Append("id", account.Id.ToString());
+                    //await Authenticate(account);
+                    //HttpContext.Response.Cookies.Append("id", account.Id.ToString());
                     return Redirect("~/Account/Index");
                 }
             }

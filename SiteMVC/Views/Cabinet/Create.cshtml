@@ -14,12 +14,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Number" class="control-label"></label>
-                <input type="number" asp-for="Number" class="form-control" />
+                <input type="number" placeholder="Введите номер кабинета" asp-for="Number" class="form-control" />
                 <span asp-validation-for="Number" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input type="text" asp-for="Description" class="form-control" />
+                <input type="text" asp-for="Description" placeholder="Введите описание" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">

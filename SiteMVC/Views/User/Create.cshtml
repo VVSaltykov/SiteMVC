@@ -13,12 +13,15 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <select asp-for="Account.Login" class="form-control" asp-items="ViewBag.Account"></select>
+                <label asp-for="Account.Login" class="control-label"></label>
+                <select asp-for="Account.Login" class="form-control" placeholder="Выберите аккаунт" asp-items="ViewBag.Account"></select>
             </div>
             <div class="form-group">
-                <select asp-for="Roles.Id" class="form-control" asp-items="ViewBag.Roles"></select>
+                <label asp-for="Roles.Name" class="control-label"></label>
+                <select asp-for="Roles.Id" class="form-control" placeholder="Выберите роль" asp-items="ViewBag.Roles"></select>
                 <div class="form-group">
-                    <select asp-for="ClassId" class="form-control" asp-items="ViewBag.Class"></select>
+                    <label asp-for="ClassId" class="control-label">Номер класса</label>
+                    <select asp-for="ClassId" class="form-control" placeholder="Выберите класс" asp-items="ViewBag.Class"></select>
                 </div>
             </div>
             <div class="form-group">

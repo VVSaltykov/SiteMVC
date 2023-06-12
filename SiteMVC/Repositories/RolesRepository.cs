@@ -27,7 +27,7 @@ namespace SiteMVC.Repositories
             var role = await applicationContext.FindAsync<Roles>(id);
             return role;
         }
-        public async Task<Roles> GetUserRoleAsync(Users user)
+        public async Task<Roles> GetUserRoleAsync(Users? user)
         {
             var role = await applicationContext.Roles.FirstOrDefaultAsync(r => r.Id == user.RoleId);
             return role;

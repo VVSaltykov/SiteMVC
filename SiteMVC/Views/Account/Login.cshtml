@@ -11,11 +11,12 @@
     <title>Local</title>
 </head>
 <form asp-action="Login" asp-controller="Account">
-<link rel="stylesheet" href="~/css/app.css">
+<link rel="stylesheet" href="~/assets/css/app.css">
+<link rel="stylesheet" href="~/assets/css/style.css">
 <div class="container" align="middle" style="height: 100vh;">
     <div class="d-flex justify-content-center w-100 h-100">
         <div class="frame align-self-center col-md-3">
-            <div class="header">Авторизация</div>
+            <div class="header" >Авторизация</div>
             <div>Пожалуйста, заполните все формы для авторизации.</div>
             <div class="validation" asp-validation-summary="ModelOnly"></div>
             <div>
@@ -35,7 +36,7 @@
             </div>
             <div>
                 <form method="post" asp-area="" asp-controller="Roles" asp-action="Create">
-                    <input type="submit" class="authbtn" value="Авторизоваться">
+                        <input type="submit" class="authbtn" value="Авторизоваться">
                 </form>
             </div>
         </div>

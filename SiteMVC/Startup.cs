@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 using System.Collections.Generic;
 using SiteMVC.Repositories;
+using Microsoft.AspNetCore.Builder;
 
 namespace SiteMVC
 {
@@ -57,6 +58,8 @@ namespace SiteMVC
             app.UseRouting();
             app.UseAuthorization();
             app.UseAuthentication();
+
+
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {

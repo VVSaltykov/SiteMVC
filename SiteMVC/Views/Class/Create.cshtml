@@ -1,4 +1,5 @@
-﻿@model Class
+﻿@using SiteMVC.Models;
+@model Class
 
 @{
     ViewData["Title"] = "Создание";
@@ -16,7 +17,8 @@
                 <input type="text" asp-for="Name" placeholder="Введите номер класса" required>
             </div>
             <div class="form-group">
-                <select asp-for="UserId" class="list" asp-items="ViewBag.Users"></select>
+                <label asp-for="UserId" class="control-label"></label>
+                <select asp-for="UserId" placeholder="Укажите классного руководителя" class="list" asp-items="ViewBag.Users"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Создать" class="btn btn-warning" />

@@ -14,30 +14,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" placeholder="Введите дату" class="form-control" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Grade" class="control-label"></label>
-                <input asp-for="Grade" class="form-control" />
+                <input asp-for="Grade" placeholder="Поставьте оценку" class="form-control" />
                 <span asp-validation-for="Grade" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="WorkType" class="control-label"></label>
-                <input asp-for="WorkType" class="form-control" />
+                <input asp-for="WorkType" placeholder="Введите тип работы" class="form-control" />
                 <span asp-validation-for="WorkType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LessonID" class="control-label"></label>
-                <select asp-for="LessonID" class="form-control" asp-items="ViewBag.Lesson"></select>
+                <label asp-for="Lesson.LessonNumber" class="control-label"></label>
+                <select asp-for="LessonID" placeholder="Выберите урок" class="form-control" asp-items="ViewBag.Lesson"></select>
             </div>
             <div class="form-group">
-                <label asp-for="SubjectId" class="control-label"></label>
-                <select asp-for="SubjectId" class="form-control" asp-items="ViewBag.Subjects"></select>
+                <label asp-for="Subject.Name" class="control-label"></label>
+                <select asp-for="SubjectId" placeholder="Выберите предмет" class="form-control" asp-items="ViewBag.Subjects"></select>
             </div>
             <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class="form-control" asp-items="ViewBag.Students"></select>
+                <label asp-for="User.FIO" class="control-label"></label>
+                <select asp-for="UserID" placeholder="Выберите ученика" class="form-control" asp-items="ViewBag.Students"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Создать" class="btn btn-warning" />

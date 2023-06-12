@@ -14,12 +14,12 @@
 }
 
 @{
-    ViewData["Title"] = "Журнал";
+    ViewData["Title"] = "Оценки";
 }
 
-<h1>Журнал</h1>
+<h1>Оценки</h1>
 
-@if (userRole.Name == "teacher" || userRole.Name == "admin")
+@if (userRole.Name == "учитель" || userRole.Name == "admin")
 {
     <p>
         <a asp-action="Create" class="btn btn-warning">Создать</a>
@@ -40,16 +40,16 @@
                 @Html.DisplayNameFor(model => model.WorkType)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LessonID)
+                @Html.DisplayNameFor(model => model.Lesson.LessonNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SubjectId)
+                @Html.DisplayNameFor(model => model.Subject.Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @if (userRole.Name == "student")
+        @if (userRole.Name == "ученик")
         {
             @foreach (var item in journals)
             {
@@ -73,7 +73,7 @@
                 </tr>
             }
         }
-        @if (userRole.Name == "teacher" || userRole.Name == "admin")
+        @if (userRole.Name == "учитель" || userRole.Name == "admin")
         {
             @foreach (var item in Model)
             {
@@ -96,7 +96,6 @@
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id " class="btn btn-warning">Подробнее</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-warning">Удалить</a>
                     </td>
                 </tr>

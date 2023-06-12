@@ -46,7 +46,7 @@ namespace SiteMVC.Controllers
             var role = await rolesRepository.GetRoleByIdAsync(roleId);
             var @class = await classRepository.GetClassByIdAsync(classId);
             await userRepository.AddNewUser(_account, role, @class, fio, phone);
-            return Redirect("~/Roles/Create");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int? id)
         {
