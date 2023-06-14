@@ -27,7 +27,7 @@ namespace SiteMVC.Repositories
         }
         public async Task<IEnumerable<Users>> GetTeachers()
         {
-            List<Users> users = await GetUsersByRole("teacher");
+            List<Users> users = await GetUsersByRole("учитель");
             IEnumerable<Users> teachers = users;
             foreach (Users user in users)
             {
@@ -37,7 +37,7 @@ namespace SiteMVC.Repositories
         }
         public async Task<IEnumerable<Users>> GetStudents()
         {
-            List<Users> users = await GetUsersByRole("student");
+            List<Users> users = await GetUsersByRole("ученик");
             IEnumerable<Users> teachers = users;
             foreach (Users user in users)
             {

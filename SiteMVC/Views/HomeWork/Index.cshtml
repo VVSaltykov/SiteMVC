@@ -5,6 +5,7 @@
 @inject UserRepository userRepository
 @inject RolesRepository rolesRepository
 @inject HomeWorkRepository homeWorkRepository
+@inject SubjectRepository subjectRepository
 @{
     string login = User.Identity.Name;
     var account = await accountRepository.GetAccountByLoginAsync(login);
@@ -29,10 +30,16 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Lesson.LessonNumber)
+            </th>
+            <th>
+                Предмет
             </th>
             <th></th>
         </tr>
@@ -42,12 +49,19 @@
         {
             @foreach (var item in homeWorks)
             {
+                Subject subject = await subjectRepository.GetSubjectByIdAsync(item.Lesson.SubjectId);
                 <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                    </td>
+                    <td>
+                        @subject.Name
                     </td>
                 </tr>
             }        
@@ -56,12 +70,19 @@
         {
             @foreach (var item in Model)
             {
+                Subject subject = await subjectRepository.GetSubjectByIdAsync(item.Lesson.SubjectId);
                 <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                    </td>
+                    <td>
+                        @subject.Name
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |

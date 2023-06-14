@@ -29,7 +29,7 @@ namespace SiteMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await applicationContext.Lessons.ToListAsync());
+            return View(await applicationContext.Lessons.Include(l => l.Class).Include(l => l.Subject).Include(l => l.Cabinet).Include(l => l.Users).ToListAsync());
         }
 
         public async Task<IActionResult> Create()

@@ -32,7 +32,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         @try
                         {
-                            @if (userRole.Name == "учитель")
+                            @if (userRole.Name == "ученик")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="HomeWork" asp-action="Index">Домашнее задание</a>
@@ -44,7 +44,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Lesson" asp-action="Index">Расписание</a>
                                 </li>
                             }
-                            @if (userRole.Name == "ученика")
+                            @if (userRole.Name == "учитель")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="HomeWork" asp-action="Index">Домашнее задание</a>
