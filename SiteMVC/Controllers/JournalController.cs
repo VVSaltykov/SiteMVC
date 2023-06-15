@@ -29,10 +29,13 @@ namespace SiteMVC.Controllers
         {
             return View(await applicationContext.Journals.Include(j => j.Lesson).Include(j => j.User).Include(j => j.Subject).ToListAsync());
         }
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> Create()
         {
             IEnumerable<Users> students;
             students = await userRepository.GetStudents();
+            IEnumerable<Users> teachers;
+            teachers = await userRepository.GetTeachers();
+            ViewData["Teachers"] = new SelectList(teachers, "Id", "FIO");
             ViewData["Lesson"] = new SelectList(applicationContext.Lessons, "Id", "LessonNumber");
             ViewData["Students"] = new SelectList(students, "Id", "FIO");
             ViewData["Subjects"] = new SelectList(applicationContext.Subjects, "Id", "Name");
@@ -41,7 +44,7 @@ namespace SiteMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DateTime date, int? grade, string workType,
+        public async Task<IActionResult> Create(DateTime date, int? grade, string? workType,
             int lessonId, int subjectId, int userId, string? presence)
         {
             var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);

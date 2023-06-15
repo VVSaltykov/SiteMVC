@@ -10,7 +10,7 @@ namespace SiteMVC.Repositories
         {
             this.applicationContext = applicationContext;
         }
-        public async Task AddNewJournal(DateTime date, int? grade, string workType, Lesson lesson, Subject subject, Users users, string? presence)
+        public async Task AddNewJournal(DateTime date, int? grade, string? workType, Lesson lesson, Subject subject, Users users, string? presence)
         {
             Journal journal = new Journal
             {
@@ -28,6 +28,11 @@ namespace SiteMVC.Repositories
         public async Task<List<Journal>> GetUserJournalAsync(Users user)
         {
             List<Journal> journals = applicationContext.Journals.Where(j => j.UserID == user.Id).ToList();
+            return journals;
+        }
+        public async Task<List<Journal>> GetTeacherJournalAsync(Users user)
+        {
+            List<Journal> journals = applicationContext.Journals.Where(l => l.UserID == user.Id).ToList();
             return journals;
         }
     }

@@ -12,6 +12,7 @@
     var user = await userRepository.GetUserByAccountAsync(account);
     var userRole = await rolesRepository.GetUserRoleAsync(user);
     List<Lesson> lessons = await lessonRepository.GetUserLessonsAsync(user);
+    List<Lesson> teacherLessons = await lessonRepository.GetTeacherLessonAsync(user);
 }
 @{
     ViewData["Title"] = "Расписание";
@@ -76,7 +77,37 @@
                 </tr>
             }
         }
-        @if (userRole.Name == "Учитель" || userRole.Name == "admin")
+        @if (userRole.Name == "Учитель")
+        {
+            @foreach (var item in teacherLessons)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WeekDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LessonNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Class.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cabinet.Number)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Users.FIO)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>
+                    </td>
+                </tr>
+            }
+        }
+        @if (userRole.Name == "admin")
         {
             @foreach (var item in Model)
             {

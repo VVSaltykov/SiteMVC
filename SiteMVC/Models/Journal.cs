@@ -13,7 +13,7 @@ namespace SiteMVC.Models
         [Display(Name = "Оценка")]
         public int? Grade { get; set; }
         [Display(Name = "Название работы")]
-        public string WorkType { get; set; }
+        public string? WorkType { get; set; }
         public string? Presence { get; set; }
         public int? LessonID { get; set; }
         public int? UserID { get; set; }
