@@ -21,5 +21,6 @@ namespace SiteMVC.Models
         public List<Class>? Classes { get; set; } = null;
         public List<Lesson>? Lessons { get; set; }
         public List<Journal>? Journals { get; set; }
+        public List<HomeWork>? HomeWorks { get; set; }
     }
 }

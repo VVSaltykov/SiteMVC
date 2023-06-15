@@ -11,7 +11,7 @@ namespace SiteMVC.Models
         [Display(Name = "Дата")]
         public DateTime Date { get; set; }
         [Display(Name = "Оценка")]
-        public int Grade { get; set; }
+        public int? Grade { get; set; }
         [Display(Name = "Название работы")]
         public string WorkType { get; set; }
         public string? Presence { get; set; }

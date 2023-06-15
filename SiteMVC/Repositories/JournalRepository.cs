@@ -10,7 +10,7 @@ namespace SiteMVC.Repositories
         {
             this.applicationContext = applicationContext;
         }
-        public async Task AddNewJournal(DateTime date, int grade, string workType, Lesson lesson, Subject subject, Users users, string? presence)
+        public async Task AddNewJournal(DateTime date, int? grade, string workType, Lesson lesson, Subject subject, Users users, string? presence)
         {
             Journal journal = new Journal
             {

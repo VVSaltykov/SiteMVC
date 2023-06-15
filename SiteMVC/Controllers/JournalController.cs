@@ -41,7 +41,7 @@ namespace SiteMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DateTime date, int grade, string workType,
+        public async Task<IActionResult> Create(DateTime date, int? grade, string workType,
             int lessonId, int subjectId, int userId, string? presence)
         {
             var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);

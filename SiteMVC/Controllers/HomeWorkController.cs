@@ -12,33 +12,53 @@ namespace SiteMVC.Controllers
         private readonly HomeWorkRepository homeWorkRepository;
         private readonly LessonRepository lessonRepository;
         private readonly ClassRepository classRepository;
+        private readonly UserRepository userRepository;
+        private readonly AccountRepository accountRepository;
 
         public HomeWorkController(ApplicationContext applicationContext, HomeWorkRepository homeWorkRepository,
-            LessonRepository lessonRepository, ClassRepository classRepository)
+            LessonRepository lessonRepository, ClassRepository classRepository, UserRepository userRepository, AccountRepository accountRepository)
         {
             this.applicationContext = applicationContext;
             this.homeWorkRepository = homeWorkRepository;
             this.lessonRepository = lessonRepository;
             this.classRepository = classRepository;
+            this.userRepository = userRepository;
+            this.accountRepository = accountRepository;
         }
         public async Task<IActionResult> Index()
         {
             return View(await applicationContext.HomeWorks.Include(h => h.Lesson).Include(h => h.Class).ToListAsync());
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            IEnumerable<Users> teachers;
+            teachers = await userRepository.GetTeachers();
+            ViewData["Users"] = new SelectList(teachers, "Id", "FIO");
             ViewData["Lesson"] = new SelectList(applicationContext.Lessons, "Id", "LessonNumber");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DateTime date, string description, int? classId, int? lessonId)
+        public async Task<IActionResult> Create(DateTime date, string description, int? classId, int? lessonId, int? userId)
         {
-            var _class = await classRepository.GetClassByIdAsync(classId);
-            var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
-            await homeWorkRepository.AddNewHomeWork(date, description, lesson, _class);
+            if(userId == null)
+            {
+                string login = User.Identity.Name;
+                var account = await accountRepository.GetAccountByLoginAsync(login);
+                var user = await userRepository.GetUserByAccountAsync(account);
+                var _class = await classRepository.GetClassByIdAsync(classId);
+                var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
+                await homeWorkRepository.AddNewHomeWork(date, description, lesson, _class, user);
+            }
+            else
+            {
+                var user = await userRepository.GetUserByIdAsync(userId);
+                var _class = await classRepository.GetClassByIdAsync(classId);
+                var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
+                await homeWorkRepository.AddNewHomeWork(date, description, lesson, _class, user);
+            }
             return Redirect("~/HomeWork/Index");
         }
 

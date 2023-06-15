@@ -15,9 +15,12 @@ namespace SiteMVC.Models
         public string? Description { get; set; }
         public int? ClassID { get; set; }
         public int? LessonId { get; set; }
+        public int? UserId { get; set; }
         [ForeignKey("ClassID")]
         public Class? Class { get; set; }
         [ForeignKey("LessonId")]
         public Lesson? Lesson { get; set; }
+        [ForeignKey("UserId")]
+        public Users Users { get; set; }
     }
 }

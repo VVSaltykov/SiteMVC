@@ -11,7 +11,8 @@
     var account = await accountRepository.GetAccountByLoginAsync(login);
     var user = await userRepository.GetUserByAccountAsync(account);
     var userRole = await rolesRepository.GetUserRoleAsync(user);
-    List<HomeWork> homeWorks = await homeWorkRepository.GetUserHomeWorksAsync(user);
+    List<HomeWork>? homeWorks = await homeWorkRepository.GetUserHomeWorksAsync(user);
+    List<HomeWork>? teacherHomeWorks = await homeWorkRepository.GetTeacherHomeWorksAsync(user);
 }
 
 @{
@@ -66,7 +67,32 @@
                 </tr>
             }        
         }
-        @if (userRole.Name == "Учитель" || userRole.Name == "admin")
+        @if (userRole.Name == "Учитель")
+        {
+            @foreach (var item in teacherHomeWorks)
+            {
+                Subject subject = await subjectRepository.GetSubjectByIdAsync(item.Lesson.SubjectId);
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lesson.LessonNumber)
+                    </td>
+                    <td>
+                        @subject.Name
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Изменить</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-warning">Удалить</a>
+                    </td>
+                </tr>
+            }
+        }
+        @if (userRole.Name == "admin")
         {
             @foreach (var item in Model)
             {
