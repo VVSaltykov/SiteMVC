@@ -10,11 +10,11 @@ namespace SiteMVC.Repositories
         {
             this.applicationContext = applicationContext;
         }
-        public async Task AddNewHomeWork(DateTime dateTime, string description, Lesson lesson, Class _class)
+        public async Task AddNewHomeWork(DateTime date, string description, Lesson lesson, Class _class)
         {
             HomeWork homeWork = new HomeWork
             {
-                Date = dateTime,
+                Date = date,
                 Description = description,
                 Lesson = lesson,
                 Class = _class

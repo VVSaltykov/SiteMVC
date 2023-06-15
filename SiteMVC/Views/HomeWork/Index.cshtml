@@ -20,7 +20,7 @@
 
 <h1>Домашнее Задание</h1>
 
-@if (userRole.Name == "учитель" || userRole.Name == "admin")
+@if (userRole.Name == "Учитель" || userRole.Name == "admin")
 {
     <p>
         <a asp-action="Create" class="btn btn-warning">Создать</a>
@@ -45,7 +45,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (userRole.Name == "ученик")
+        @if (userRole.Name == "Ученик")
         {
             @foreach (var item in homeWorks)
             {
@@ -66,7 +66,7 @@
                 </tr>
             }        
         }
-        @if (userRole.Name == "учитель" || userRole.Name == "admin")
+        @if (userRole.Name == "Учитель" || userRole.Name == "admin")
         {
             @foreach (var item in Model)
             {

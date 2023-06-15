@@ -34,11 +34,11 @@ namespace SiteMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(DateTime dateTime, string description, int? classId, int? lessonId)
+        public async Task<IActionResult> Create(DateTime date, string description, int? classId, int? lessonId)
         {
             var _class = await classRepository.GetClassByIdAsync(classId);
             var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
-            await homeWorkRepository.AddNewHomeWork(dateTime, description, lesson, _class);
+            await homeWorkRepository.AddNewHomeWork(date, description, lesson, _class);
             return Redirect("~/HomeWork/Index");
         }
 
