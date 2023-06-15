@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SiteMVC.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
@@ -13,6 +14,7 @@ namespace SiteMVC.Models
         public int Grade { get; set; }
         [Display(Name = "Название работы")]
         public string WorkType { get; set; }
+        public string? Presence { get; set; }
         public int? LessonID { get; set; }
         public int? UserID { get; set; }
         public int? SubjectId { get; set; }

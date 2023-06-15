@@ -33,5 +33,10 @@ namespace SiteMVC.Repositories
             var _class = await applicationContext.FindAsync<Class>(id);
             return _class;
         }
+        public async Task<Class?> GetUserClassAsync(Users user)
+        {
+            var userClass = applicationContext.Classes.Include(c => c.Users).FirstOrDefault(c => c.Id == user.ClassId);
+            return userClass;
+        }
     }
 }

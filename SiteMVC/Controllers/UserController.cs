@@ -30,7 +30,7 @@ namespace SiteMVC.Controllers
 
         public IActionResult Create()
         {
-            ViewData["Account"] = new SelectList(applicationContext.Accounts, "Login", "Password");
+            ViewData["Account"] = new SelectList(applicationContext.Accounts, "Login", "Login");
             ViewData["Roles"] = new SelectList(applicationContext.Roles, "Id", "Name");
             ViewData["Class"] = new SelectList(applicationContext.Classes, "Id", "Name");
             return View();

@@ -4,7 +4,7 @@
 @inject UserRepository userRepository
 @inject AccountRepository accountRepository
 @inject RolesRepository rolesRepository
-
+@inject ClassRepository classRepository
 @{
     ViewData["Title"] = "Пользователи";
     string login = User.Identity.Name;
@@ -42,6 +42,7 @@
         {
             @foreach (var item in students)
             {
+                var userClass = await classRepository.GetUserClassAsync(item);
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.FIO)
@@ -49,9 +50,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Phone)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClassId)
-                    </td>
+                    @if (!string.IsNullOrEmpty(userClass?.Name))
+                    {
+                        <td>
+                            @userClass.Name
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            -
+                        </td>
+                    }
                 </tr>
             }
         }
@@ -59,6 +69,7 @@
         {
             @foreach (var item in Model)
             {
+                Class? userClass = await classRepository.GetUserClassAsync(item);
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.FIO)
@@ -66,9 +77,18 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Phone)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ClassId)
-                    </td>
+                    @if (!string.IsNullOrEmpty(userClass?.Name))
+                    {
+                        <td>
+                            @userClass.Name
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            -
+                        </td>
+                    }
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" , class="btn btn-warning">Изменить</a> |
                         <a asp-action="Delete" asp-route-id="@item.Id" , class="btn btn-warning">Удалить</a>

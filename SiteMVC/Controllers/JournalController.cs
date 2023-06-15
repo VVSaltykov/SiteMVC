@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SiteMVC.Enums;
 using SiteMVC.Models;
 using SiteMVC.Repositories;
 
@@ -41,12 +42,12 @@ namespace SiteMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DateTime dateTime, int grade, string workType,
-            int lessonId, int subjectId, int userId)
+            int lessonId, int subjectId, int userId, string? presence)
         {
             var lesson = await lessonRepository.GetLessonByIdAsync(lessonId);
             var subject = await subjectRepository.GetSubjectByIdAsync(subjectId);
             var user = await userRepository.GetUserByIdAsync(userId);
-            await journalRepository.AddNewJournal(dateTime, grade, workType, lesson, subject, user);
+            await journalRepository.AddNewJournal(dateTime, grade, workType, lesson, subject, user, presence);
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Edit(int? id)
