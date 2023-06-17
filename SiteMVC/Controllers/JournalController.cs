@@ -33,9 +33,6 @@ namespace SiteMVC.Controllers
         {
             IEnumerable<Users> students;
             students = await userRepository.GetStudents();
-            IEnumerable<Users> teachers;
-            teachers = await userRepository.GetTeachers();
-            ViewData["Teachers"] = new SelectList(teachers, "Id", "FIO");
             ViewData["Lesson"] = new SelectList(applicationContext.Lessons, "Id", "LessonNumber");
             ViewData["Students"] = new SelectList(students, "Id", "FIO");
             ViewData["Subjects"] = new SelectList(applicationContext.Subjects, "Id", "Name");

@@ -1,4 +1,5 @@
-﻿using SiteMVC.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using SiteMVC.Models;
 
 namespace SiteMVC.Repositories
 {
@@ -30,9 +31,14 @@ namespace SiteMVC.Repositories
             List<Journal> journals = applicationContext.Journals.Where(j => j.UserID == user.Id).ToList();
             return journals;
         }
-        public async Task<List<Journal>> GetTeacherJournalAsync(Users user)
+        public async Task<List<Journal>> GetTeacherJournalAsync()
         {
-            List<Journal> journals = applicationContext.Journals.Where(l => l.UserID == user.Id).ToList();
+            List<Journal> journals = new List<Journal>();
+            var lessons = await applicationContext.Lessons.Include(l => l.Users).ToListAsync();
+            foreach(var lesson in lessons)
+            {
+                journals = applicationContext.Journals.Where(j => j.LessonID == lesson.Id).ToList();
+            }
             return journals;
         }
     }
